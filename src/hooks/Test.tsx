@@ -1,37 +1,103 @@
-// import { useMutation, useQuery } from '@apollo/client'
-// import { ADD_TODO, ALL_TODO } from '../client/queries'
-import { Button, Spin } from 'antd'
+import { Button, Form, Input, Radio, Spin } from 'antd'
 import { useAppDispatch, useAppSelector } from './hooks'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { handleSlice } from '../store/reducers/handleSlice'
-import { ALL_TODO } from '../client/queries'
+import { CREATE_ISSUE, GET_ISSUES, GET_REPOSITORY } from '../client/queries'
+import { client } from '../client/client'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 
-
-
-interface pr {
-	loading: boolean
-	error: undefined
+interface MyState {
+	repositoryId: string;
+	title: string;
+	body: string;
 }
-const Test = () => {
+type LayoutType = Parameters<typeof Form>[0]['layout'];
+
+
+const Test: FC = () => {
 	const { count } = useAppSelector(state => state.userReducer)
+	const [inputValue, setInputValue] = useState<MyState>({
+		repositoryId: "",
+		title: "",
+		body: ""
+	});
+	console.log(inputValue.title);
+
 	const { increment } = handleSlice.actions
 	const dispatch = useAppDispatch()
-	const { loading, data } = useQuery(ALL_TODO)
+	const [createIssue, { error: issueERR }] = useMutation(CREATE_ISSUE, {
+		// refetchQueries: [
+		// 	{ query: ALL_TODO }
+		// ]
+	})
 
-	if (loading) {
-		return <Spin tip="Loading" size="large">
-			<div className="content" />
-		</Spin>
+	const { loading, error, data } = useQuery(GET_REPOSITORY, {
+		client,
+		variables: {
+			username: "facebook",
+			repository: "react",
+		},
+	});
+	const { data: issues } = useQuery(GET_ISSUES, {
+		client,
+		variables: {
+			userLogin: "Zhumabai00",
+		},
+	});
+	if (loading) return <Spin tip="Loading" size="large"><div className="content" /></Spin>
+	// if (error) return <p>Error : {error.message}</p>;
 
+	// console.log(import.meta.env.VITE_GITHUB_TOKEN);
+	console.log(data)
+	// console.log(issues.user.repositories.edges[8].node.issues.edges[0].node.title);
+	// const user = issues.user.repositories.edges.map((item: any) => (
+	// 	item.node.issues
+	// ));
+	// console.log(user.issues.edges.map((item: any) => item.node.title));
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.KeyboardEvent<HTMLInputElement>): void => {
+		e.preventDefault()
+		if (inputValue.title.trim().length) {
+			createIssue({
+				variables: {
+					repositoryId: "R_kgDOKSQM9w",
+					title: inputValue.title,
+					body: ""
+				}
+			});
+			setInputValue({
+				repositoryId: "",
+				title: "",
+				body: ""
+			});
+		}
+		console.log('Submitted value:', inputValue.title);
+	};
+	// const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+	// 	setInputValue({
+	// 		...inputValue,
+	// 		title: event.target.value
+	// 	});
+	// };
+	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const newTitle = e.target.value;
+		setInputValue(prevState => ({
+			...prevState,
+			title: newTitle
+		}));
+	};
+	const handlekey = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		if (event.key === "Enter") handleSubmit(event);
 	}
+
 	return (
 		<div>
-			{data.allTodos.map((todo: any) => (
-				<div key={todo.id}>
-
-					{todo.title}
-				</div>
-			))}
+			<h1>
+				{data.repository.name}
+			</h1>
+			<form onSubmit={e => handleSubmit(e)}>
+				<input type="text" style={{ border: "1px solid black", outline: "none" }} value={inputValue.title} onChange={handleInputChange} />
+				<Button type='primary' htmlType="submit">submit</Button>
+			</form>
 			<h1>{count}</h1>
 			<Button type='primary' onClick={() => dispatch(increment(10))}>increment</Button>
 		</div>

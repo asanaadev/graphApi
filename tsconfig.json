@@ -17,34 +17,34 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./src/*",
-        "./dist/*",
-        ""
-      ],
-      "components/*": [
-        "src/components/*"
-      ],
-      "models/*": [
-        "src/models/*"
-      ],
-      "store/*": [
-        "src/store/*"
-      ],
-      "components/*": [
-        "src/components/*"
-      ],
-      "services/*": [
-        "src/services/*"
-      ],
-      "client/*": [
-        "src/client/*"
-      ],
-      "assets/*": [
-        "src/assets/*"
-      ],
-    },
+    // "paths": {
+    //   "@/*": [
+    //     "./src/*",
+    //     "./dist/*",
+    //     ""
+    //   ],
+    //   "components/*": [
+    //     "src/components/*"
+    //   ],
+    //   "models/*": [
+    //     "src/models/*"
+    //   ],
+    //   "store/*": [
+    //     "src/store/*"
+    //   ],
+    //   "components/*": [
+    //     "src/components/*"
+    //   ],
+    //   "services/*": [
+    //     "src/services/*"
+    //   ],
+    //   "client/*": [
+    //     "src/client/*"
+    //   ],
+    //   "assets/*": [
+    //     "src/assets/*"
+    //   ],
+    // },
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

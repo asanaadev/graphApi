@@ -14,12 +14,14 @@
     "@apollo/client": "^3.8.8",
     "@reduxjs/toolkit": "^2.0.1",
     "antd": "^5.12.1",
+    "dotenv": "^16.3.1",
     "graphql": "^16.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.0.2"
   },
   "devDependencies": {
+    "@types/node": "^20.10.4",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
