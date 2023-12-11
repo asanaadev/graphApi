@@ -1,24 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const ALL_TODO = gql`
-	query AllTodos {
-		allTodos {
-			id
-			title
-			completed
-		}
-	}
-`;
 
-export const ADD_TODO = gql`
-	mutation AddTodo($title: String!, $completed: Boolean!) {
-  newTodo: createTodo(title: $title, completed: $completed) {
-    id
-    title
-    completed
-  }
-}
-`;
 export const GET_REPOSITORY = gql`
   query getRepository($username: String!, $repository: String!) {
     repository(name: $repository, owner: $username) {
@@ -37,12 +19,44 @@ export const GET_REPOSITORY = gql`
     }
   }
 `;
+export const GET_ALL_REPOSITORY = gql`
+  query($userLogin: String!) {
+  user(login: $userLogin) {
+    name
+    avatarUrl
+    projectsUrl
+    url
+    repositories(affiliations: [OWNER], last: 100) {
+      edges {
+        node {
+          name
+					id
+          issues(states: [OPEN], last: 100) {
+            edges {
+              node {
+                createdAt
+                title
+                url
+                repository {
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
 export const GET_ISSUES = gql`
 	query($userLogin: String!) {
   user(login: $userLogin) {
     repositories(affiliations: [OWNER], last: 10) {
       edges {
         node {
+					name
+          id
           issues(states: [OPEN], last: 10) {
             edges {
               node {
