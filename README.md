@@ -16,7 +16,7 @@ Currently, two official plugins are available:
 
 
     client/client.tsx
-     ownerName = // YOUR NAME
+    const ownerName = // YOUR NAME
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
