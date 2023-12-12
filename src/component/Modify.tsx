@@ -61,15 +61,14 @@ const Modify: FC<Name> = ({ ownerName, user }) => {
 						</a>
 					</div>
 				</div>
-				<div className="w-full flex ">
+				<div className="w-full flex flex-wrap gap-5">
 					<Link to='/' className='flex-1 m-0'>
 						<span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
 							&lt;-
 						</span>{' '}
 						Home
 					</Link>
-					<h2>can find ur issues and create, update and remove</h2>
-
+					<h2 className='opacity-70'>can find ur issues and create, update and remove</h2>
 				</div>
 				<div className="mb-32 mt-2 gap-2 grid text-center md:max-w-5xl lg:w-full md:mb-0 lg:grid-cols-4 lg:text-left">
 					<CreateContent data={data.repository} />
