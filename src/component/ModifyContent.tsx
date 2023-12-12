@@ -21,7 +21,7 @@ const ModifyContent = ({ item }: any) => {
 			{ query: GET_ISSUES }
 		],
 	})
-
+	if (issueERR) return <h1>Errroe...</h1>
 	const handleSubmit = (e: FormEvent) => {
 		// e.preventDefault();
 		if (inputValue.title.trim().length) {

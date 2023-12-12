@@ -18,6 +18,7 @@ export const GET_REPOSITORY = gql`
     }
   }
 `;
+
 export const GET_ALL_REPOSITORY = gql`
   query($userLogin: String!) {
   user(login: $userLogin) {

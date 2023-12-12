@@ -27,7 +27,7 @@ const CreateContent: FC<Data> = ({ data }) => {
 			});
 		},
 	})
-	if (issueERR) return <h1>Loading...</h1>
+	if (issueERR) return <h1>Error...</h1>
 	const handleSubmit = (e: FormEvent) => {
 		// e.preventDefault();
 		if (inputValue.title.trim().length) {

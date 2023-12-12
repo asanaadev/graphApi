@@ -23,6 +23,7 @@ export interface User {
 	name: string
 	url: string
 	avatarUrl: string
+	projectsUrl: string
 	repositories: {
 		edges: Repository[];
 	};

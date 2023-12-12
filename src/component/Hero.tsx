@@ -35,12 +35,13 @@ const Hero = () => {
 			userLogin: ownerName,
 		},
 	});
-	if (MainLoading) return <Spin tip="Loading" size="large"><div className="content" /></Spin>
+	if (MainLoading) return <Spin tip="Loading" className='mt-12' size="large"><div className="content" /></Spin>
+	if (MainError) return <Spin tip="Error" className='mt-12' size="large"><div className="content" /></Spin>
 
 	return (
 		<Routes>
 			<Route path="/" element={<ContentList data={data} />} />
-			<Route path="/:title" element={<Modify ownerName={ownerName} />} />
+			<Route path="/:title" element={<Modify user={data.user} ownerName={ownerName} />} />
 		</Routes>
 	)
 }
