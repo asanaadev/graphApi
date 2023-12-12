@@ -1,6 +1,6 @@
 import { Button, Form, FormInstance, Input, Radio, Space, ConfigProvider } from "antd"
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
-import { GET_ISSUES, UPDATE_ISSUE } from "../client/queries";
+import { DELETE_ISSUE, GET_ISSUES, UPDATE_ISSUE } from "../client/queries";
 import { useMutation } from "@apollo/client";
 
 interface MyState {
@@ -17,6 +17,11 @@ const ModifyContent = ({ item }: any) => {
 		body: '',
 	});
 	const [UpdateIssue, { error: issueERR }] = useMutation(UPDATE_ISSUE, {
+		refetchQueries: [
+			{ query: GET_ISSUES }
+		],
+	})
+	const [DeleteIssue, { error: DeleteERR }] = useMutation(DELETE_ISSUE, {
 		refetchQueries: [
 			{ query: GET_ISSUES }
 		],
@@ -68,10 +73,14 @@ const ModifyContent = ({ item }: any) => {
 				</Form.Item>
 				<Form.Item>
 					<Space>
+						<Button htmlType="button" onClick={() => DeleteIssue({
+							variables: {
+								issueId: item.id
+							}
+						})}>Delete</Button>
 						<Button type="primary" htmlType="submit">
 							Submit
 						</Button>
-						<Button htmlType="reset">Reset</Button>
 					</Space>
 				</Form.Item>
 			</Form>

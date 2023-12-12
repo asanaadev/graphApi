@@ -46,7 +46,7 @@ const ContentList: FC<Data> = ({ data }) => {
 
 			<div className="mb-32 mt-2 gap-2 grid text-center md:max-w-5xl lg:w-full md:mb-0 lg:grid-cols-4 lg:text-left">
 				{data.user.repositories.edges.map((item: any) => (
-					<Content key={item.node.id} item={item} />
+					<Content key={item.node.name} item={item} />
 				))}
 			</div>
 		</main >

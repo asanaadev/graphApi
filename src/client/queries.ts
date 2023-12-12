@@ -68,32 +68,6 @@ export const GET_ISSUES = gql`
     }
   }
 `;
-// export const GET_ISSUES2 = gql`
-// 	query($userLogin: String!) {
-//   user(login: $userLogin) {
-//     repositories(affiliations: [OWNER], last: 10) {
-//       edges {
-//         node {
-// 					name
-//           id
-//           issues(states: [OPEN], last: 10) {
-//             edges {
-//               node {
-//                 createdAt
-//                 title
-//                 url
-//                 repository {
-//                   name
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-// `
 export const CREATE_ISSUE = gql`
 	mutation CreateIssue($repositoryId: ID!, $title: String!, $body: String!) {
   createIssue(input: { repositoryId: $repositoryId, title: $title, body: $body }) {
@@ -113,6 +87,14 @@ export const UPDATE_ISSUE = gql`
         title
         body
       }
+    }
+  }
+`;
+
+export const DELETE_ISSUE = gql`
+  mutation DeleteIssue($issueId: ID!) {
+    deleteIssue(input: { issueId: $issueId }) {
+      clientMutationId
     }
   }
 `;
