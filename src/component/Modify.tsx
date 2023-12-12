@@ -1,66 +1,49 @@
 import { useMutation } from '@apollo/client';
-import React, { ChangeEvent, useState } from 'react'
-import { CREATE_ISSUE, GET_ALL_REPOSITORY } from '../client/queries';
-import { Button } from 'antd';
-
-interface MyState {
-	repositoryId: string;
-	title: string;
-	body: string;
+import { useQuery } from '@apollo/client';
+import { GET_ISSUES } from '../client/queries';
+import { CREATE_ISSUE } from '../client/queries';
+import { client } from '../client/client';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import ModifyContent from './ModifyContent';
+import CreateContent from './CreateContent';
+interface Name {
+	ownerName?: string
 }
 
-const Modify = () => {
-	// DATA FROM USER
-	const [inputValue, setInputValue] = useState<MyState>({
-		repositoryId: "",
-		title: "",
-		body: "",
+const Modify: FC<Name> = ({ ownerName }) => {
+	const { title } = useParams()
+	const { data, loading, error } = useQuery(GET_ISSUES, {
+		client,
+		variables: {
+			owner: ownerName,
+			name: title,
+			first: 50
+		},
 	});
-	// REQUEST TO THE GRAPHQL HITGUB API VIA useMutation AND CREATE_ISSUE
-	const [createIssue, { error: issueERR }] = useMutation(CREATE_ISSUE, {
-		refetchQueries: [
-			{ query: GET_ALL_REPOSITORY }
-		]
-	})
 
-	// HANDLE FUNCTIONS
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.KeyboardEvent<HTMLInputElement>): void => {
-		e.preventDefault()
-		if (inputValue.title.trim().length) {
-			createIssue({
-				variables: {
-					repositoryId: inputValue.repositoryId,
-					title: inputValue.title,
-					body: inputValue.body
-				}
-			});
-			setInputValue({
-				repositoryId: "",
-				title: "",
-				body: ""
-			});
-		}
-		console.log('Submitted value:', inputValue.title);
-	};
 
-	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const newTitle = e.target.value;
-		setInputValue(prevState => ({
-			...prevState,
-			title: newTitle
-		}));
-	};
+	if (loading) return <h1>Loading...</h1>
+	if (error) return <h1>Error...</h1>
 
-	const handlekey = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-		if (e.key === "Enter") handleSubmit(e);
-	}
+
+
+	// const handlekey = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+	// 	if (e.key === "Enter") handleSubmit(e);
+	// }
+
 
 	return (
 		<div>
-			<form onSubmit={e => handleSubmit(e)}>
-				<input type="text" className='text-black' value={inputValue.title} onChange={handleInputChange} />
-				<Button type='primary' onKeyDown={handlekey} htmlType="submit">submit</Button>
-			</form>
+			<main className="flex min-h-screen flex-col items-center justify-between p-24">
+				<div className="mb-32 mt-2 gap-2 grid text-center md:max-w-5xl lg:w-full md:mb-0 lg:grid-cols-4 lg:text-left">
+					<CreateContent data={data.repository} />
+					{data.repository.issues.nodes.map((item: any) => (
+						<ModifyContent key={item.id} item={item} />
+					))}
+				</div>
+			</main >
+			<h1>{data.repository.name}</h1>
 		</div>
 	)
 }

@@ -1,34 +1,13 @@
-import { useQuery } from '@apollo/client';
-import { Button, Spin } from 'antd';
-import React, { useState } from 'react'
-import { client } from '../client/client';
-import { GET_ALL_REPOSITORY } from '../client/queries';
 import GitHub from '../assets/GitHub-Mark.png'
+import Content from './Content';
+import { GET_ISSUES } from '../client/queries';
+import { FC } from 'react';
+import { Data } from '../models/models';
 
-interface MyState {
-	repositoryId: string;
-	title: string;
-	body: string;
-}
 
-const ContentList = () => {
-	const [inputValue, setInputValue] = useState<MyState>({
-		repositoryId: "",
-		title: "",
-		body: "",
-	});
 
-	const { loading: MainLoading, error: MainError, data } = useQuery(GET_ALL_REPOSITORY, {
-		client,
-		variables: {
-			userLogin: "Zhumabai00",
-		},
-	});
 
-	if (MainLoading) return <Spin tip="Loading" size="large"><div className="content" /></Spin>
-	// console.log(MainData.user);
-	// console.log(MainData.user.repositories.edges[25].node.issues.edges[1].node.createdAt);
-	// issues.edges[1].node.createdAt
+const ContentList: FC<Data> = ({ data }) => {
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between p-24">
 			<div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
@@ -67,35 +46,7 @@ const ContentList = () => {
 
 			<div className="mb-32 mt-2 gap-2 grid text-center md:max-w-5xl lg:w-full md:mb-0 lg:grid-cols-4 lg:text-left">
 				{data.user.repositories.edges.map((item: any) => (
-					<a
-						key={item.node.id}
-						href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-						className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<h2 className={`mb-1 text-2xl font-semibold`}>
-							{item.node.name}
-
-						</h2>
-						<div className="m-0 max-w-[30ch]">
-							<h3 className=''>Issues{' '}
-								<span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-									-&gt;
-								</span>
-							</h3>
-							<div className={`text-sm opacity-50`}>
-								{!item.node.issues.edges[0] ? <h1 className=''>There is no issues yet:(</h1> :
-									item.node.issues.edges.map((item: any) => <p key={item.node.title}>{item.node.title}</p>)
-								}
-							</div>
-						</div>
-
-						{/* {item.node.issues.edges[0].node.title ? item.node.issues.edges[0].node.title : "non issues"} */}
-						{/* Find in-depth information about Next.js features and API. */}
-						{/* {item.node.issues ? item.node.issues.edges[0].node.createdAt : 'd'} */}
-
-					</a>
+					<Content key={item.node.id} item={item} />
 				))}
 			</div>
 		</main >
