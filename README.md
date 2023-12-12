@@ -12,11 +12,11 @@ Currently, two official plugins are available:
 
 ```js
     .env
-    const VITE_GITHUB_TOKEN= //YOUR TOKEN
+     VITE_GITHUB_TOKEN= //YOUR TOKEN
 
 
     client/client.tsx
-    const ownerName = // YOUR NAME
+     ownerName = // YOUR NAME
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
