@@ -1,31 +1,10 @@
 import { Route, Routes } from "react-router-dom"
 import ContentList from "./ContentList"
-import Login from "./Login"
 import { useQuery } from "@apollo/client"
 import { GET_ALL_REPOSITORY } from "../client/queries"
 import { client } from "../client/client"
 import { Spin } from "antd"
 import Modify from "./Modify"
-
-// interface IData {
-// 	user: {
-// 		repositories: {
-// 			edges: [
-// 				{
-// 					node: {
-// 						name: string
-// 						id: string
-// 						issues: {
-// 							edges:
-// 						}
-// 					}
-// 				}
-// 			]
-// 		}
-// 	}
-// }
-
-
 
 const Hero = () => {
 	const ownerName = "Zhumabai00"

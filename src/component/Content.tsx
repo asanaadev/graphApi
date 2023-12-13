@@ -1,5 +1,4 @@
 import { FC } from "react"
-import { Issue } from "../models/ICreateContent"
 import { Link } from "react-router-dom"
 
 const Content: FC<any> = ({ item }) => {
@@ -8,7 +7,6 @@ const Content: FC<any> = ({ item }) => {
 		<Link
 			to={item.node.name}
 			className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-			// target="_blank"
 			rel="noopener noreferrer"
 		>
 			<h2 className={`mb-1 text-2xl font-semibold`}>
@@ -26,11 +24,6 @@ const Content: FC<any> = ({ item }) => {
 					}
 				</div>
 			</div>
-
-			{/* {item.node.issues.edges[0].node.title ? item.node.issues.edges[0].node.title : "non issues"} */}
-			{/* Find in-depth information about Next.js features and API. */}
-			{/* {item.node.issues ? item.node.issues.edges[0].node.createdAt : 'd'} */}
-
 		</Link>
 	)
 }

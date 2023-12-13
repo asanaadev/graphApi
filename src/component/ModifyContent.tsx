@@ -1,6 +1,6 @@
-import { Button, Form, FormInstance, Input, Radio, Space, ConfigProvider } from "antd"
-import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
-import { DELETE_ISSUE, GET_ISSUES, UPDATE_ISSUE } from "../client/queries";
+import { Button, Form, Input, Space, Spin } from "antd"
+import { ChangeEvent, FormEvent, useState } from "react";
+import { DELETE_ISSUE, GET_ALL_REPOSITORY, GET_ISSUES, UPDATE_ISSUE } from "../client/queries";
 import { useMutation } from "@apollo/client";
 
 interface MyState {
@@ -17,16 +17,18 @@ const ModifyContent = ({ item }: any) => {
 		body: '',
 	});
 	const [UpdateIssue, { error: issueERR }] = useMutation(UPDATE_ISSUE, {
-		refetchQueries: [
-			{ query: GET_ISSUES }
-		],
+		onCompleted: () => {
+			// After the mutation is completed successfully, refetch the data
+		},
 	})
-	const [DeleteIssue, { error: DeleteERR }] = useMutation(DELETE_ISSUE, {
+	const [DeleteIssue, { error: DeleteERR, loading: loadDelete }] = useMutation(DELETE_ISSUE, {
 		refetchQueries: [
-			{ query: GET_ISSUES }
+			GET_ALL_REPOSITORY,
+			GET_ISSUES,
 		],
 	})
 	if (issueERR) return <h1>Errroe...</h1>
+	if (loadDelete) return <Spin tip="Deleting" size="large"><div className="content" /></Spin>
 	const handleSubmit = (e: FormEvent) => {
 		// e.preventDefault();
 		if (inputValue.title.trim().length) {
@@ -60,7 +62,6 @@ const ModifyContent = ({ item }: any) => {
 			body: value,
 		}));
 	};
-	// console.log(inputValue.title);
 
 	return (
 		<div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
@@ -73,10 +74,10 @@ const ModifyContent = ({ item }: any) => {
 				</Form.Item>
 				<Form.Item>
 					<Space>
-						<Button htmlType="button" onClick={() => DeleteIssue({
+						<Button htmlType="submit" onClick={() => DeleteIssue({
 							variables: {
 								issueId: item.id
-							}
+							},
 						})}>Delete</Button>
 						<Button type="primary" htmlType="submit">
 							Submit

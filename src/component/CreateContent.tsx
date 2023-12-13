@@ -1,6 +1,6 @@
-import { Button, Form, FormInstance, Input, Space } from 'antd';
-import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
-import { CREATE_ISSUE, GET_ALL_REPOSITORY, GET_ISSUES } from '../client/queries';
+import { Button, Form, Input, Space } from 'antd';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { CREATE_ISSUE, GET_ALL_REPOSITORY } from '../client/queries';
 import { useMutation } from '@apollo/client';
 import { Data } from '../models/ICreateContent';
 

@@ -1,6 +1,5 @@
 import GitHub from '../assets/GitHub-Mark.png'
 import Content from './Content';
-import { GET_ISSUES } from '../client/queries';
 import { FC } from 'react';
 import { Data } from '../models/models';
 
