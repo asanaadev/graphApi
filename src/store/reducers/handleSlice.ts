@@ -8,6 +8,7 @@ interface IUser {
 
 interface UserState {
 	user?: IUser
+
 }
 
 const initialState: IUser = {
